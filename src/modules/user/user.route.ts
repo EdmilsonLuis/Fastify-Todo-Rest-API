@@ -7,6 +7,9 @@ export default async function userRoutes(server: FastifyInstance) {
         "/",
         {
             schema: {
+                description: "Register a new user",
+                tags: ["User"],
+                summary: "Register User",
                 body: $ref("createUserSchema"),
                 response: {
                     201: $ref("createUserResponseSchema")
@@ -20,6 +23,9 @@ export default async function userRoutes(server: FastifyInstance) {
         "/login",
         {
             schema: {
+                description: "Login an existing user",
+                tags: ["User"],
+                summary: "Login User",
                 body: $ref("loginSchema"),
                 response: {
                     201: $ref("loginResponseSchema")

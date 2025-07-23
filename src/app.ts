@@ -27,6 +27,26 @@ server.get("/healthcheck", () => {
     for (const schema of [...userSchemas, ...todoSchemas]) {
         server.addSchema(schema);
     }
+
+    // Register Swagger UI for documentation
+    await server.register(import('@fastify/swagger'))
+
+    await server.register(import('@fastify/swagger-ui'), {
+        routePrefix: '/documentation',
+        uiConfig: {
+            docExpansion: 'full',
+            deepLinking: false
+        },
+        uiHooks: {
+            onRequest: function (request, reply, next) { next() },
+            preHandler: function (request, reply, next) { next() }
+        },
+        staticCSP: true,
+        transformStaticCSP: (header) => header,
+        transformSpecification: (swaggerObject, request, reply) => { return swaggerObject },
+        transformSpecificationClone: true
+    })
+
     server.register(userRoutes, { prefix: "api/users" });
     server.register(todoRoutes, { prefix: "api/todos" });
 
